@@ -72,7 +72,7 @@
             this.MinimizeBox = false;
             this.Name = "AddMemberForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddMemberForm";
+            this.Text = "添加成员";
             this.ResumeLayout(false);
             this.PerformLayout();
 

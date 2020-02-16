@@ -31,6 +31,7 @@
             this.tableView = new System.Windows.Forms.TableLayoutPanel();
             this.btnAddMember = new System.Windows.Forms.Button();
             this.btnAddRecord = new System.Windows.Forms.Button();
+            this.btnDelMember = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tableView
@@ -81,7 +82,7 @@
             // 
             // btnAddMember
             // 
-            this.btnAddMember.Location = new System.Drawing.Point(16, 696);
+            this.btnAddMember.Location = new System.Drawing.Point(48, 696);
             this.btnAddMember.Name = "btnAddMember";
             this.btnAddMember.Size = new System.Drawing.Size(190, 33);
             this.btnAddMember.TabIndex = 1;
@@ -91,7 +92,7 @@
             // 
             // btnAddRecord
             // 
-            this.btnAddRecord.Location = new System.Drawing.Point(223, 696);
+            this.btnAddRecord.Location = new System.Drawing.Point(291, 696);
             this.btnAddRecord.Name = "btnAddRecord";
             this.btnAddRecord.Size = new System.Drawing.Size(190, 33);
             this.btnAddRecord.TabIndex = 2;
@@ -99,11 +100,22 @@
             this.btnAddRecord.UseVisualStyleBackColor = true;
             this.btnAddRecord.Click += new System.EventHandler(this.btnAddRecord_Click);
             // 
+            // btnDelMember
+            // 
+            this.btnDelMember.Location = new System.Drawing.Point(538, 696);
+            this.btnDelMember.Name = "btnDelMember";
+            this.btnDelMember.Size = new System.Drawing.Size(190, 33);
+            this.btnDelMember.TabIndex = 3;
+            this.btnDelMember.Text = "删除成员";
+            this.btnDelMember.UseVisualStyleBackColor = true;
+            this.btnDelMember.Click += new System.EventHandler(this.btnDelMember_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1510, 738);
+            this.Controls.Add(this.btnDelMember);
             this.Controls.Add(this.btnAddRecord);
             this.Controls.Add(this.btnAddMember);
             this.Controls.Add(this.tableView);
@@ -122,6 +134,7 @@
         private System.Windows.Forms.TableLayoutPanel tableView;
         private System.Windows.Forms.Button btnAddMember;
         private System.Windows.Forms.Button btnAddRecord;
+        private System.Windows.Forms.Button btnDelMember;
     }
 }
 

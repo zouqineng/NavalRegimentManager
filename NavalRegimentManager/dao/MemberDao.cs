@@ -24,6 +24,14 @@ namespace NavalRegimentManager.dao
             return Update(member);
         }
 
+        public bool delMemberById(string id)
+        {
+            Member dbMember = getMemberById(id);
+            if (dbMember == null) return false;
+            dbMember.IsDelete = true;
+            return Update(dbMember);
+        }
+
 
 
     }

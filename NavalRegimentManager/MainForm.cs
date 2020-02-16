@@ -100,6 +100,17 @@ namespace NavalRegimentManager
             bindData();
         }
 
+        public void DelMembers(string memberInfoStr)
+        {
+            if (memberInfoStr == null || memberInfoStr.Trim().Length == 0) return;
+            memberInfoStr = memberInfoStr.Trim();
+            memberInfoStr = memberInfoStr.Replace("，", ",");
+            MemberDao memberDao = new MemberDao();
+            string[] recordInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string item in recordInfo) memberDao.delMemberById(item);
+            bindData();
+        }
+
         public void AddRecords(string recordInfoStr)
         {
             if (recordInfoStr == null || recordInfoStr.Trim().Length == 0) return;
@@ -115,6 +126,7 @@ namespace NavalRegimentManager
             bindData();
         }
 
+
         private void btnAddMember_Click(object sender, EventArgs e)
         {
             AddMemberForm addMemberForm = new AddMemberForm(this);
@@ -127,13 +139,17 @@ namespace NavalRegimentManager
             addRecordForm.Show();
         }
 
+        private void btnDelMember_Click(object sender, EventArgs e)
+        {
+            DelMemberForm delMemberForm = new DelMemberForm(this);
+            delMemberForm.Show();
+        }
+
         private void btnCopyId_Click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             Clipboard.SetDataObject(button.Tag);
         }
-
-        
 
     }
 }

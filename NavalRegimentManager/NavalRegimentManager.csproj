@@ -97,6 +97,12 @@
     <Compile Include="dao\DBContext.cs" />
     <Compile Include="dao\MemberDao.cs" />
     <Compile Include="dao\RecordDao.cs" />
+    <Compile Include="DelMemberForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DelMemberForm.Designer.cs">
+      <DependentUpon>DelMemberForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddRecordForm.resx">
       <DependentUpon>AddRecordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DelMemberForm.resx">
+      <DependentUpon>DelMemberForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
