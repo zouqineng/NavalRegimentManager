@@ -11,10 +11,10 @@ namespace NavalRegimentManager.dao
 {
     public class DataInfoDao: DbContext<DataInfo>
     {
-        public List<DataInfo> getData()
+        public List<DataInfo> getThisWeekRecord()
         {
             StringBuilder sqlStr = new StringBuilder();
-            sqlStr.Append(" select m.id as uid,m.name as memberName,r.count,m.CreateDate from member m");
+            sqlStr.Append(" select m.id as uid,m.name as memberName,r.count,m.createDate from member m");
             sqlStr.Append(" left join(");
             sqlStr.Append("     select memberId, count(memberId) count from record");
             sqlStr.Append("     where createDate>= @weekStart and createDate<= @weekEnd");
@@ -28,8 +28,27 @@ namespace NavalRegimentManager.dao
             return GetListBySql(sqlStr.ToString(),sugarParameters);
         }
 
+        public List<DataInfo> getRecordBetweenIndex(int startIndex, int endIndex)
+        {
+            StringBuilder sqlStr = new StringBuilder();
+            sqlStr.Append(" select m.id as uid,m.name as memberName,r.count,m.createDate from member m");
+            sqlStr.Append(" left join(");
+            sqlStr.Append("     select memberId, count(memberId) count from record");
+            sqlStr.Append("     where 'index'>=@startIndex and 'index'<=@endIndex");
+            sqlStr.Append("     group by memberId");
+            sqlStr.Append(" ) r on m.id = r.memberId");
+            sqlStr.Append(" where m.isDelete=0");
+            sqlStr.Append(" order by r.count desc,m.createDate desc");
+            List<SugarParameter> sugarParameters = new List<SugarParameter>();
+            sugarParameters.Add(new SugarParameter("startIndex", startIndex));
+            sugarParameters.Add(new SugarParameter("endIndex", endIndex));
+            return GetListBySql(sqlStr.ToString(), sugarParameters);
+        }
 
-        
+
+
+
+
 
     }
 }

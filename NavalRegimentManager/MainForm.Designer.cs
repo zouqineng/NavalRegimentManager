@@ -32,6 +32,7 @@
             this.btnAddMember = new System.Windows.Forms.Button();
             this.btnAddRecord = new System.Windows.Forms.Button();
             this.btnDelMember = new System.Windows.Forms.Button();
+            this.btnNear4Record = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tableView
@@ -110,11 +111,22 @@
             this.btnDelMember.UseVisualStyleBackColor = true;
             this.btnDelMember.Click += new System.EventHandler(this.btnDelMember_Click);
             // 
+            // btnNear4Record
+            // 
+            this.btnNear4Record.Location = new System.Drawing.Point(789, 696);
+            this.btnNear4Record.Name = "btnNear4Record";
+            this.btnNear4Record.Size = new System.Drawing.Size(190, 33);
+            this.btnNear4Record.TabIndex = 4;
+            this.btnNear4Record.Text = "近4次记录";
+            this.btnNear4Record.UseVisualStyleBackColor = true;
+            this.btnNear4Record.Click += new System.EventHandler(this.btnNear4Record_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1510, 738);
+            this.Controls.Add(this.btnNear4Record);
             this.Controls.Add(this.btnDelMember);
             this.Controls.Add(this.btnAddRecord);
             this.Controls.Add(this.btnAddMember);
@@ -135,6 +147,7 @@
         private System.Windows.Forms.Button btnAddMember;
         private System.Windows.Forms.Button btnAddRecord;
         private System.Windows.Forms.Button btnDelMember;
+        private System.Windows.Forms.Button btnNear4Record;
     }
 }
 

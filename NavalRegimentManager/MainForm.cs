@@ -11,8 +11,6 @@ namespace NavalRegimentManager
     {
         private int rowCount;
         private int columnCount;
-        private DataInfo[][] dataInfoArr;
-
 
         public MainForm()
         {
@@ -23,18 +21,32 @@ namespace NavalRegimentManager
         {
             this.rowCount = this.tableView.RowCount;
             this.columnCount = this.tableView.ColumnCount;
-            dataInfoArr = new DataInfo[columnCount][];
-            bindData();
+            showThisWeekRecord();
+        }
+
+        private void showThisWeekRecord()
+        {
+            DataInfoDao dataInfoDao = new DataInfoDao();
+            List<DataInfo> dataInfoList = dataInfoDao.getThisWeekRecord();
+            bindData(dataInfoList);
+        }
+
+        private void showNear4Record()
+        {
+            DataInfoDao dataInfoDao = new DataInfoDao();
+            RecordDao recordDao = new RecordDao();
+            int maxIndex = recordDao.getMaxIndex();
+            int startIndex = maxIndex - 4 < 0 ? 0 : maxIndex - 4;
+            List<DataInfo> dataInfoList = dataInfoDao.getRecordBetweenIndex(startIndex, maxIndex);
+            bindData(dataInfoList);
         }
 
 
-        private void bindData()
+        private void bindData(List<DataInfo> dataInfoList)
         {
             int index = 1;
             DateTime weekStart = DateTimeHelper.getWeekStart();
             DateTime weekEnd = DateTimeHelper.getWeekEnd();
-            DataInfoDao dataInfoDao = new DataInfoDao();
-            List<DataInfo> dataInfoList = dataInfoDao.getData();
             this.tableView.Controls.Clear();
             for (int i = 0; i < dataInfoList.Count; i++)
             {
@@ -97,7 +109,7 @@ namespace NavalRegimentManager
                 Member member = new Member(attribute[0], attribute[1]);
                 memberDao.saveOrUpdate(member);
             }
-            bindData();
+            showThisWeekRecord();
         }
 
         public void DelMembers(string memberInfoStr)
@@ -108,7 +120,7 @@ namespace NavalRegimentManager
             MemberDao memberDao = new MemberDao();
             string[] recordInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string item in recordInfo) memberDao.delMemberById(item);
-            bindData();
+            showThisWeekRecord();
         }
 
         public void AddRecords(string recordInfoStr)
@@ -123,7 +135,7 @@ namespace NavalRegimentManager
             {
                 recordDao.Insert(new Record(item, maxIndex + 1));
             }
-            bindData();
+            showThisWeekRecord();
         }
 
 
@@ -151,5 +163,9 @@ namespace NavalRegimentManager
             Clipboard.SetDataObject(button.Tag);
         }
 
+        private void btnNear4Record_Click(object sender, EventArgs e)
+        {
+            showNear4Record();
+        }
     }
 }
