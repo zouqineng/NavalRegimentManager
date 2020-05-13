@@ -41,6 +41,13 @@ namespace NavalRegimentManager
             bindData(dataInfoList);
         }
 
+        private void showAllRecord()
+        {
+            DataInfoDao dataInfoDao = new DataInfoDao();
+            List<DataInfo> dataInfoList = dataInfoDao.getAllRecord();
+            bindData(dataInfoList);
+        }
+
 
         private void bindData(List<DataInfo> dataInfoList)
         {
@@ -97,45 +104,75 @@ namespace NavalRegimentManager
 
         public void AddMembers(string memberInfoStr)
         {
-            if (memberInfoStr == null|| memberInfoStr.Trim().Length==0) return;
-            memberInfoStr = memberInfoStr.Trim();
-            memberInfoStr = memberInfoStr.Replace("：",":");
-            memberInfoStr = memberInfoStr.Replace("，", ",");
             MemberDao memberDao = new MemberDao();
-            string[] memberInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string item in memberInfo)
+            try
             {
-                string[] attribute = item.Split(':');
-                Member member = new Member(attribute[0], attribute[1]);
-                memberDao.saveOrUpdate(member);
+                memberDao.Db.BeginTran();
+                if (memberInfoStr == null || memberInfoStr.Trim().Length == 0) return;
+                memberInfoStr = memberInfoStr.Trim();
+                memberInfoStr = memberInfoStr.Replace("：", ":");
+                memberInfoStr = memberInfoStr.Replace("，", ",");
+                memberInfoStr = memberInfoStr.Replace("\r\n", "");
+                string[] memberInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string item in memberInfo)
+                {
+                    string[] attribute = item.Split(':');
+                    Member member = new Member(attribute[0], attribute[1]);
+                    memberDao.saveOrUpdate(member);
+                }
+                memberDao.Db.CommitTran();
+                showThisWeekRecord();
             }
-            showThisWeekRecord();
+            catch (Exception ex)
+            {
+                memberDao.Db.RollbackTran();
+                MessageBox.Show(ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void DelMembers(string memberInfoStr)
         {
-            if (memberInfoStr == null || memberInfoStr.Trim().Length == 0) return;
-            memberInfoStr = memberInfoStr.Trim();
-            memberInfoStr = memberInfoStr.Replace("，", ",");
             MemberDao memberDao = new MemberDao();
-            string[] recordInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string item in recordInfo) memberDao.delMemberById(item);
-            showThisWeekRecord();
+            try
+            {
+                memberDao.Db.BeginTran();
+                if (memberInfoStr == null || memberInfoStr.Trim().Length == 0) return;
+                memberInfoStr = memberInfoStr.Trim();
+                memberInfoStr = memberInfoStr.Replace("，", ",");
+                memberInfoStr = memberInfoStr.Replace("\r\n", "");
+                string[] recordInfo = memberInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string item in recordInfo) memberDao.delMemberById(item);
+                memberDao.Db.CommitTran();
+                showThisWeekRecord();
+            }
+            catch (Exception ex)
+            {
+                memberDao.Db.RollbackTran();
+                MessageBox.Show(ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void AddRecords(string recordInfoStr)
         {
-            if (recordInfoStr == null || recordInfoStr.Trim().Length == 0) return;
-            recordInfoStr = recordInfoStr.Trim();
-            recordInfoStr = recordInfoStr.Replace("，", ",");
             RecordDao recordDao = new RecordDao();
-            int maxIndex = recordDao.getMaxIndex();
-            string[] recordInfo = recordInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string item in recordInfo)
+            try
             {
-                recordDao.Insert(new Record(item, maxIndex + 1));
+                recordDao.Db.BeginTran();
+                int maxIndex = recordDao.getMaxIndex();
+                if (recordInfoStr == null || recordInfoStr.Trim().Length == 0) return;
+                recordInfoStr = recordInfoStr.Trim();
+                recordInfoStr = recordInfoStr.Replace("，", ",");
+                recordInfoStr = recordInfoStr.Replace("\r\n", "");
+                string[] recordInfo = recordInfoStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string item in recordInfo) recordDao.Insert(new Record(item, maxIndex + 1));
+                recordDao.Db.CommitTran();
+                showThisWeekRecord();
             }
-            showThisWeekRecord();
+            catch (Exception ex)
+            {
+                recordDao.Db.RollbackTran();
+                MessageBox.Show(ex.Message, "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
 
@@ -166,6 +203,11 @@ namespace NavalRegimentManager
         private void btnNear4Record_Click(object sender, EventArgs e)
         {
             showNear4Record();
+        }
+
+        private void btnAllRecord_Click(object sender, EventArgs e)
+        {
+            showAllRecord();
         }
     }
 }

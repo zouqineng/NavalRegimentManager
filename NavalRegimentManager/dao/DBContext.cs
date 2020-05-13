@@ -11,7 +11,7 @@ namespace NavalRegimentManager.dao
 {
     public class DbContext<T> where T :class,new()
     {
-        protected SqlSugarClient Db;//用来处理事务多表查询和复杂的操作 //注意：不能写成静态的
+        public SqlSugarClient Db;//用来处理事务多表查询和复杂的操作 //注意：不能写成静态的
         public DbContext()
         {
             Db = new SqlSugarClient(new ConnectionConfig()
@@ -20,7 +20,6 @@ namespace NavalRegimentManager.dao
                 DbType = DbType.MySql,
                 InitKeyType = InitKeyType.Attribute,//从特性读取主键和自增列信息
                 IsAutoCloseConnection = true,//开启自动释放模式和EF原理一样我就不多解释了
-
             });
             //调式代码 用来打印SQL 
             Db.Aop.OnLogExecuting = (sql, pars) =>
